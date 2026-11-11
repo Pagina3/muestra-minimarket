@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimarket & Almacén Don Pepe · Delivery Express & Abarrotes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .cat-pill.active {
+            background-color: #059669 !important;
+            color: #ffffff !important;
+            border-color: #059669 !important;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+        .product-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 pb-28 sm:pb-16 min-h-screen">
+
+    <!-- TOP ANNOUNCEMENT BANNER -->
+    <div class="bg-emerald-950 text-emerald-200 text-[11px] sm:text-xs font-bold py-2 px-3 text-center border-b border-emerald-800 flex items-center justify-center gap-2">
+        <span class="inline-flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <strong>Abierto Ahora:</strong> Reparto a domicilio en 30 a 45 min en toda la zona
+        </span>
+        <span class="hidden sm:inline text-emerald-500">|</span>
+        <span class="hidden sm:inline">Envío GRATIS por compras sobre $20.000</span>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between gap-3">
+                
+                <!-- BRAND LOGO -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-amber-500 text-white flex items-center justify-center text-xl shadow-md shadow-emerald-600/20 shrink-0">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <h1 class="text-base sm:text-lg font-black text-slate-900 leading-tight">Don Pepe</h1>
+                            <span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded-full border border-amber-200">Minimarket</span>
+                        </div>
+                        <p class="text-[10px] sm:text-xs text-slate-500 font-medium">Abarrotes, Carnes, Bebidas & Delivery Express</p>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="flex items-center gap-2">
+                    <a href="#contacto" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-emerald-700 px-3 py-2 rounded-xl transition">
+                        <i class="fa-solid fa-location-dot text-emerald-600"></i>
+                        <span>Ubicación & Horarios</span>
+                    </a>
+
+                    <!-- CART BUTTON DESKTOP & MOBILE -->
+                    <button onclick="toggleCartModal()" class="relative bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black text-xs sm:text-sm px-3.5 sm:px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-md shadow-emerald-600/25 transition">
+                        <i class="fa-solid fa-cart-shopping text-sm sm:text-base"></i>
+                        <span class="hidden sm:inline">Tu Carrito</span>
+                        <span id="headerCartCount" class="bg-amber-400 text-slate-950 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEARCH BAR IN HEADER -->
+            <div class="mt-3 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs sm:text-sm"></i>
+                <input type="text" id="searchInput" oninput="filtrarProductos()" placeholder="Buscar productos (ej: carne, pan, leche, bebida, aceite)..." 
+                       class="w-full bg-slate-100/90 border border-slate-200 rounded-2xl pl-10 pr-9 py-2.5 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition">
+                <button onclick="limpiarBusqueda()" id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- WATERMARK / BANNER DEMO COMERCIAL -->
+    <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-slate-950 font-bold text-[11px] py-1.5 px-3 text-center shadow-inner">
+        ⭐ <strong>Maqueta Web de Demostración:</strong> Este diseño se entrega personalizado con el logo, productos y precios de tu Minimarket o Almacén.
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <main class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-6">
+
+        <!-- PROMOTIONAL HERO BANNERS (OFERTAS SEMANALES) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            <!-- PROMO 1: ASADO -->
+            <div class="bg-gradient-to-br from-red-900 via-red-800 to-red-950 text-white rounded-3xl p-4 sm:p-5 relative overflow-hidden shadow-md flex flex-col justify-between">
+                <div class="relative z-10">
+                    <span class="text-[9px] font-black bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block mb-2">🔥 Oferta Asado</span>
+                    <h3 class="text-base sm:text-lg font-black leading-tight">Pack Parrillero Familiar</h3>
+                    <p class="text-[11px] text-red-200 mt-1 leading-snug">1kg Lomo Vetado + 1kg Costillar + Longaniza + Carbón 2.5kg</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-red-700/60 flex items-center justify-between relative z-10">
+                    <div>
+                        <span class="text-[10px] text-red-300 line-through">$28.990</span>
+                        <div class="text-base sm:text-lg font-black text-amber-300">$24.990</div>
+                    </div>
+                    <button onclick="agregarPackAsado()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow active:scale-95 transition">
+                        + Agregar Pack
+                    </button>
+                </div>
+                <i class="fa-solid fa-fire text-red-700/20 text-7xl absolute -right-2 -bottom-2 z-0"></i>
+            </div>
+
+            <!-- PROMO 2: ONCE FAMILIAR -->
+            <div class="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-950 text-white rounded-3xl p-4 sm:p-5 relative overflow-hidden shadow-md flex flex-col justify-between">
+                <div class="relative z-10">
+                    <span class="text-[9px] font-black bg-emerald-400 text-slate-950 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block mb-2">🥖 Desayuno & Once</span>
+                    <h3 class="text-base sm:text-lg font-black leading-tight">Pack Once Tradicional</h3>
+                    <p class="text-[11px] text-amber-200 mt-1 leading-snug">1kg Marraqueta Crujiente + 250g Jamón Pierna + 250g Queso Gauda</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-amber-700/60 flex items-center justify-between relative z-10">
+                    <div>
+                        <span class="text-[10px] text-amber-300 line-through">$7.990</span>
+                        <div class="text-base sm:text-lg font-black text-emerald-300">$6.490</div>
+                    </div>
+                    <button onclick="agregarPackOnce()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow active:scale-95 transition">
+                        + Agregar Pack
+                    </button>
+                </div>
+                <i class="fa-solid fa-bread-slice text-amber-700/20 text-7xl absolute -right-2 -bottom-2 z-0"></i>
+            </div>
+
+            <!-- PROMO 3: BEBIDAS & SED -->
+            <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 text-white rounded-3xl p-4 sm:p-5 relative overflow-hidden shadow-md flex flex-col justify-between">
+                <div class="relative z-10">
+                    <span class="text-[9px] font-black bg-cyan-400 text-slate-950 px-2 py-0.5 rounded-full uppercase tracking-wider inline-block mb-2">🍺 Aperitivo & Sed</span>
+                    <h3 class="text-base sm:text-lg font-black leading-tight">Pack Cervezas & Papas</h3>
+                    <p class="text-[11px] text-slate-300 mt-1 leading-snug">6 Cervezas Royal Guard 350cc + Papas Fritas Lays Familiar 250g</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between relative z-10">
+                    <div>
+                        <span class="text-[10px] text-slate-400 line-through">$9.990</span>
+                        <div class="text-base sm:text-lg font-black text-cyan-300">$7.990</div>
+                    </div>
+                    <button onclick="agregarPackSed()" class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow active:scale-95 transition">
+                        + Agregar Pack
+                    </button>
+                </div>
+                <i class="fa-solid fa-beer-mug-empty text-slate-700/30 text-7xl absolute -right-2 -bottom-2 z-0"></i>
+            </div>
+        </div>
+
+        <!-- CATEGORY PILLS (HORIZONTAL SCROLL ON MOBILE) -->
+        <div class="sticky top-[110px] sm:top-[125px] z-30 bg-slate-50/95 backdrop-blur-md py-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+            <div class="flex gap-2 overflow-x-auto hide-scroll pb-1">
+                <button onclick="filtrarCategoria('todas')" class="cat-pill active whitespace-nowrap bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-2xl border border-emerald-600 shadow-sm transition">
+                    🛒 Todas las Categorías
+                </button>
+                <button onclick="filtrarCategoria('carniceria')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🥩 Carnicería & Asados
+                </button>
+                <button onclick="filtrarCategoria('panaderia')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🥖 Panadería & Cecinas
+                </button>
+                <button onclick="filtrarCategoria('abarrotes')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🥫 Abarrotes & Despensa
+                </button>
+                <button onclick="filtrarCategoria('bebidas')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🥤 Bebidas & Snacks
+                </button>
+                <button onclick="filtrarCategoria('botilleria')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🍺 Botillería & Cervezas
+                </button>
+                <button onclick="filtrarCategoria('limpieza')" class="cat-pill whitespace-nowrap bg-white text-slate-700 text-xs font-bold px-4 py-2 rounded-2xl border border-slate-200 hover:border-emerald-500 shadow-sm transition">
+                    🧼 Limpieza & Aseo
+                </button>
+            </div>
+        </div>
+
+        <!-- PRODUCTS GRID -->
+        <div>
+            <div class="flex items-center justify-between mb-3">
+                <h2 id="categoriaTitulo" class="text-sm sm:text-base font-black text-slate-900">Catálogo de Productos</h2>
+                <span id="productosContador" class="text-xs text-slate-500 font-semibold">Cargando productos...</span>
+            </div>
+
+            <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                <!-- Renderizado dinámico con JS -->
+            </div>
+        </div>
+
+        <!-- SECTION: INFORMACIÓN DEL LOCAL & HORARIOS -->
+        <section id="contacto" class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-sm mt-8 space-y-6">
+            <div class="text-center max-w-xl mx-auto">
+                <span class="text-[10px] font-black bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full uppercase tracking-wider">Atención Local & Reparto</span>
+                <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-2">Visítanos o Pide a Domicilio</h3>
+                <p class="text-xs text-slate-500 mt-1">Llevamos tus compras hasta la puerta de tu casa en minutos con despacho express.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1 text-center">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 text-sm">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800">Horario Continuado</h4>
+                    <p class="text-slate-600">Lunes a Sábado: 08:30 a 22:30 hrs</p>
+                    <p class="text-slate-600">Domingos y Festivos: 09:00 a 21:30 hrs</p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1 text-center">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 text-sm">
+                        <i class="fa-solid fa-map-pin"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800">Ubicación</h4>
+                    <p class="text-slate-600">Av. Principal Nº 1245, V Región</p>
+                    <p class="text-emerald-700 font-bold">Cobertura urbana en toda la comuna</p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1 text-center">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 text-sm">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800">Medios de Pago</h4>
+                    <p class="text-slate-600">Efectivo, Débito y Crédito (Máquina Transbank)</p>
+                    <p class="text-slate-600">Transferencia electrónica bancaria</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING CART BUTTON (STICKY BOTTOM BAR ON MOBILE) -->
+    <div id="stickyBottomBar" class="fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 p-3 z-30 sm:hidden shadow-lg flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-base relative">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="mobileBarBadge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-950 font-black text-[9px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+            </div>
+            <div>
+                <span class="text-[10px] text-slate-400 font-bold block leading-none">Total Carrito:</span>
+                <span id="mobileBarTotal" class="text-sm font-black text-slate-900">$0</span>
+            </div>
+        </div>
+        <button onclick="toggleCartModal()" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center gap-1.5 transition">
+            <span>Ver Carrito</span>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+        </button>
+    </div>
+
+    <!-- CART MODAL / DRAWER -->
+    <div id="cartModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden">
+        <div class="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-lg p-5 sm:p-6 shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col animate-slide-up">
+            
+            <!-- MODAL HEADER -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-slate-900 text-sm">Tu Pedido Don Pepe</h3>
+                        <p class="text-[10px] text-slate-500">Revisa tus productos antes de enviar a WhatsApp</p>
+                    </div>
+                </div>
+                <button onclick="toggleCartModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- CART ITEMS LIST (SCROLLABLE) -->
+            <div id="cartItemsList" class="overflow-y-auto flex-1 my-3 pr-1 space-y-2.5 text-xs text-slate-700 max-h-[45vh]">
+                <!-- Inyectado dinámicamente -->
+            </div>
+
+            <!-- ORDER CONFIG: DELIVERY / RETIRO + DATOS -->
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 space-y-2 text-xs shrink-0">
+                <!-- ENTREGA TYPE -->
+                <div class="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                    <span>Tipo de Entrega:</span>
+                    <div class="flex items-center gap-3">
+                        <label class="flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="tipoEntrega" value="delivery" checked onchange="actualizarTotalCarrito()" class="accent-emerald-600">
+                            <span>Reparto (+$1.500)</span>
+                        </label>
+                        <label class="flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="tipoEntrega" value="retiro" onchange="actualizarTotalCarrito()" class="accent-emerald-600">
+                            <span>Retiro en Local</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- DIRECCIÓN -->
+                <div id="direccionContainer">
+                    <input type="text" id="inputDireccion" placeholder="Dirección de entrega (calle, número y referencia)..." 
+                           class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <!-- MEDIO DE PAGO -->
+                <div class="flex items-center justify-between text-[11px] font-bold text-slate-700 pt-1">
+                    <span>Medio de Pago:</span>
+                    <select id="selectPago" class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="Transferencia">Transferencia Bancaria</option>
+                        <option value="Efectivo">Efectivo al recibir</option>
+                        <option value="Tarjeta">Tarjeta Débito/Crédito</option>
+                    </select>
+                </div>
+
+                <!-- TOTALES -->
+                <div class="pt-2 border-t border-slate-200/80 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-slate-500 block">Subtotal: <span id="cartSubtotal">$0</span></span>
+                        <span class="text-sm font-black text-slate-900">Total a Pagar:</span>
+                    </div>
+                    <span id="cartTotal" class="text-base font-black text-emerald-700">$0</span>
+                </div>
+            </div>
+
+            <!-- CHECKOUT BUTTON -->
+            <button onclick="enviarPedidoWhatsApp()" class="w-full mt-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-black py-3 rounded-2xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition shrink-0">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Enviar Pedido a WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMessage">Producto añadido al carrito</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // CATÁLOGO DE PRODUCTOS REALES CON PRECIOS EN CLP
+        const PRODUCTOS = [
+            // --- CARNICERÍA ---
+            { id: "c1", nombre: "Lomo Vetado Premium", categoria: "carniceria", precio: 11990, formato: "1 Kg al vacío", tag: "Parrillero", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            { id: "c2", nombre: "Costillar de Cerdo Aliñado", categoria: "carniceria", precio: 8490, formato: "1 Kg fresco", tag: "Oferta", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60" },
+            { id: "c3", nombre: "Longaniza Artesanal Chillán", categoria: "carniceria", precio: 4990, formato: "Bandeja 500g", tag: "Artesanal", img: "https://images.unsplash.com/photo-1585325701165-351af916e581?w=500&auto=format&fit=crop&q=60" },
+            { id: "c4", nombre: "Pechuga de Pollo Entera", categoria: "carniceria", precio: 4290, formato: "1 Kg fresca", tag: "Fresco", img: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=500&auto=format&fit=crop&q=60" },
+            { id: "c5", nombre: "Carbón Vegetal de Espino", categoria: "carniceria", precio: 2990, formato: "Bolsa 2.5 Kg", tag: "Asados", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
+
+            // --- PANADERÍA & FIAMBRERÍA ---
+            { id: "p1", nombre: "Pan Marraqueta Crujiente", categoria: "panaderia", precio: 1890, formato: "1 Kg del día", tag: "Recién Salido", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60" },
+            { id: "p2", nombre: "Pan Hallulla Especial", categoria: "panaderia", precio: 1890, formato: "1 Kg del día", tag: "Fresco", img: "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=500&auto=format&fit=crop&q=60" },
+            { id: "p3", nombre: "Queso Gauda Laminado Colun", categoria: "panaderia", precio: 2690, formato: "Paquete 250g", tag: "Favorito", img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=500&auto=format&fit=crop&q=60" },
+            { id: "p4", nombre: "Jamón Pierna Acaramelado", categoria: "panaderia", precio: 2490, formato: "Paquete 250g", tag: "San Jorge", img: "https://images.unsplash.com/photo-1524438418049-ab2acb7aa48f?w=500&auto=format&fit=crop&q=60" },
+            { id: "p5", nombre: "Huevos de Campo Extra Grandes", categoria: "panaderia", precio: 5990, formato: "Bandeja 30 unid.", tag: "Campo", img: "https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?w=500&auto=format&fit=crop&q=60" },
+
+            // --- ABARROTES & DESPENSA ---
+            { id: "a1", nombre: "Aceite Vegetal Belmont", categoria: "abarrotes", precio: 2190, formato: "Botella 900 ml", tag: "Básico", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60" },
+            { id: "a2", nombre: "Arroz Grano Largo Tucapel G2", categoria: "abarrotes", precio: 1490, formato: "Bolsa 1 Kg", tag: "Despensa", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=60" },
+            { id: "a3", nombre: "Tallarines Lucchetti Nº 5", categoria: "abarrotes", precio: 990, formato: "Paquete 400g", tag: "Promo", img: "https://images.unsplash.com/photo-1621996346565-e3d5d6281096?w=500&auto=format&fit=crop&q=60" },
+            { id: "a4", nombre: "Salsa de Tomate Italiana", categoria: "abarrotes", precio: 690, formato: "Sachet 200g", tag: "Despensa", img: "https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?w=500&auto=format&fit=crop&q=60" },
+            { id: "a5", nombre: "Leche Entera Colun", categoria: "abarrotes", precio: 1190, formato: "Caja 1 Litro", tag: "Familiar", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=60" },
+            { id: "a6", nombre: "Café Nescafé Tradición", categoria: "abarrotes", precio: 3490, formato: "Frasco 170g", tag: "Café", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=60" },
+
+            // --- BEBIDAS & SNACKS ---
+            { id: "b1", nombre: "Coca-Cola Original 3 Litros", categoria: "bebidas", precio: 2890, formato: "Botella Retornable 3L", tag: "Más Vendido", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=60" },
+            { id: "b2", nombre: "Sprite Lima Limón 3 Litros", categoria: "bebidas", precio: 2890, formato: "Botella Retornable 3L", tag: "Refrescante", img: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=500&auto=format&fit=crop&q=60" },
+            { id: "b3", nombre: "Papas Fritas Lays Corte Americano", categoria: "bebidas", precio: 2490, formato: "Bolsa Familiar 250g", tag: "Snack", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500&auto=format&fit=crop&q=60" },
+            { id: "b4", nombre: "Agua Mineral Cachantun con Gas", categoria: "bebidas", precio: 1290, formato: "Botella 1.6 Litros", tag: "Mineral", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=500&auto=format&fit=crop&q=60" },
+
+            // --- BOTILLERÍA ---
+            { id: "bot1", nombre: "Cerveza Corona Extra Pack 6", categoria: "botilleria", precio: 5990, formato: "Pack 6 Botellas 330cc", tag: "Corona", img: "https://images.unsplash.com/photo-1608270119299-65df06085a6a?w=500&auto=format&fit=crop&q=60" },
+            { id: "bot2", nombre: "Pisco Mistral 35º Especial", categoria: "botilleria", precio: 6990, formato: "Botella 750cc", tag: "Mistral", img: "https://images.unsplash.com/photo-1527061011665-3652c757a4d4?w=500&auto=format&fit=crop&q=60" },
+            { id: "bot3", nombre: "Vino Casillero del Diablo Cabernet", categoria: "botilleria", precio: 4490, formato: "Botella 750cc", tag: "Vino Tinto", img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=500&auto=format&fit=crop&q=60" },
+            { id: "bot4", nombre: "Hielo Purificado en Cubos", categoria: "botilleria", precio: 1690, formato: "Bolsa 2 Kg", tag: "Hielo", img: "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?w=500&auto=format&fit=crop&q=60" },
+
+            // --- LIMPIEZA & ASEO ---
+            { id: "l1", nombre: "Detergente Omo Polvo Multiacción", categoria: "limpieza", precio: 3990, formato: "Bolsa 800g", tag: "Aseo", img: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=500&auto=format&fit=crop&q=60" },
+            { id: "l2", nombre: "Cloro Tradicional Clorox", categoria: "limpieza", precio: 1390, formato: "Botella 1 Litro", tag: "Desinfección", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=60" },
+            { id: "l3", nombre: "Papel Higiénico Confort Doble Hoja", categoria: "limpieza", precio: 3290, formato: "Pack 4 Rollos 50m", tag: "Hogar", img: "https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500&auto=format&fit=crop&q=60" }
+        ];
+
+        // ESTADO GLOBAL DEL CARRITO
+        let CARRITO = {}; // { id: cantidad }
+        let categoriaActiva = "todas";
+
+        // FORMATEADOR DE MONEDA CHILENA
+        function formatCLP(val) {
+            return "$" + val.toLocaleString("es-CL");
+        }
+
+        // RENDERIZADO DE PRODUCTOS
+        function renderizarProductos() {
+            const grid = document.getElementById("productsGrid");
+            const search = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            const filtrados = PRODUCTOS.filter(p => {
+                const matchCat = (categoriaActiva === "todas" || p.categoria === categoriaActiva);
+                const matchSearch = (!search || 
+                    p.nombre.toLowerCase().includes(search) || 
+                    p.formato.toLowerCase().includes(search) || 
+                    p.tag.toLowerCase().includes(search)
+                );
+                return matchCat && matchSearch;
+            });
+
+            document.getElementById("productosContador").textContent = `${filtrados.length} productos disponibles`;
+
+            if (filtrados.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-3xl border border-dashed border-slate-300 p-6">
+                        <i class="fa-solid fa-box-open text-slate-300 text-3xl mb-2"></i>
+                        <h4 class="text-sm font-bold text-slate-700">No encontramos productos</h4>
+                        <p class="text-xs text-slate-400 mt-0.5">Prueba buscando con otra palabra o revisa otra categoría.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            filtrados.forEach(p => {
+                const cant = CARRITO[p.id] || 0;
+                html += `
+                    <div class="product-card bg-white rounded-3xl p-3 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <!-- IMAGEN Y TAG -->
+                            <div class="relative rounded-2xl overflow-hidden aspect-square mb-2.5 bg-slate-100">
+                                <img src="${p.img}" alt="${p.nombre}" class="w-full h-full object-cover">
+                                <span class="absolute top-2 left-2 bg-emerald-950/80 backdrop-blur-sm text-emerald-300 font-extrabold text-[9px] px-2 py-0.5 rounded-full border border-emerald-500/30">
+                                    ${p.tag}
+                                </span>
+                            </div>
+
+                            <!-- DATOS DEL PRODUCTO -->
+                            <h3 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight line-clamp-2">${p.nombre}</h3>
+                            <p class="text-[10px] text-slate-500 mt-0.5">${p.formato}</p>
+                        </div>
+
+                        <!-- PRECIO Y BOTÓN ACCIÓN -->
+                        <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between gap-1.5">
+                            <div>
+                                <span class="text-xs sm:text-sm font-black text-slate-900">${formatCLP(p.precio)}</span>
+                            </div>
+
+                            ${cant === 0 ? `
+                                <button onclick="modificarCantidad('${p.id}', 1)" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs px-2.5 py-1.5 rounded-xl shadow-sm transition flex items-center gap-1">
+                                    <i class="fa-solid fa-plus text-[10px]"></i>
+                                    <span>Agregar</span>
+                                </button>
+                            ` : `
+                                <div class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-xl px-1.5 py-0.5">
+                                    <button onclick="modificarCantidad('${p.id}', -1)" class="w-5 h-5 rounded-lg bg-white text-emerald-800 font-black text-xs hover:bg-emerald-100 flex items-center justify-center shadow-xs">
+                                        -
+                                    </button>
+                                    <span class="text-xs font-black text-emerald-900 px-1">${cant}</span>
+                                    <button onclick="modificarCantidad('${p.id}', 1)" class="w-5 h-5 rounded-lg bg-emerald-600 text-white font-black text-xs hover:bg-emerald-700 flex items-center justify-center shadow-xs">
+                                        +
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // GESTIÓN DEL CARRITO
+        function modificarCantidad(prodId, delta) {
+            const current = CARRITO[prodId] || 0;
+            const updated = current + delta;
+            if (updated <= 0) {
+                delete CARRITO[prodId];
+            } else {
+                CARRITO[prodId] = updated;
+                if (delta > 0 && current === 0) {
+                    mostrarToast("¡Producto agregado a tu carrito!");
+                }
+            }
+            actualizarTotales();
+            renderizarProductos();
+            renderizarItemsCarritoModal();
+        }
+
+        function actualizarTotales() {
+            let totalItems = 0;
+            let subtotal = 0;
+
+            Object.entries(CARRITO).forEach(([id, qty]) => {
+                const prod = PRODUCTOS.find(p => p.id === id);
+                if (prod) {
+                    totalItems += qty;
+                    subtotal += prod.precio * qty;
+                }
+            });
+
+            // Actualizar Badges y Totales
+            document.getElementById("headerCartCount").textContent = totalItems;
+            document.getElementById("mobileBarBadge").textContent = totalItems;
+            document.getElementById("mobileBarTotal").textContent = formatCLP(subtotal);
+            document.getElementById("cartSubtotal").textContent = formatCLP(subtotal);
+
+            // Costo de Entrega
+            const tipoEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value || "delivery";
+            const costoEnvio = (tipoEntrega === "delivery" && subtotal > 0 && subtotal < 20000) ? 1500 : 0;
+            const totalFinal = subtotal + costoEnvio;
+
+            document.getElementById("cartTotal").textContent = formatCLP(totalFinal);
+        }
+
+        function actualizarTotalCarrito() {
+            actualizarTotales();
+            const tipoEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value || "delivery";
+            document.getElementById("direccionContainer").style.display = tipoEntrega === "delivery" ? "block" : "none";
+        }
+
+        function renderizarItemsCarritoModal() {
+            const container = document.getElementById("cartItemsList");
+            const entries = Object.entries(CARRITO);
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fa-solid fa-basket-shopping text-slate-300 text-3xl mb-2"></i>
+                        <p class="text-xs text-slate-500 font-bold">Tu carrito está vacío</p>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Explora las categorías y agrega lo que necesites.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            entries.forEach(([id, qty]) => {
+                const prod = PRODUCTOS.find(p => p.id === id);
+                if (!prod) return;
+                const totalItem = prod.precio * qty;
+                html += `
+                    <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <img src="${prod.img}" class="w-10 h-10 rounded-xl object-cover shrink-0">
+                            <div class="truncate">
+                                <h4 class="font-bold text-slate-800 text-xs truncate">${prod.nombre}</h4>
+                                <span class="text-[10px] text-slate-400">${formatCLP(prod.precio)} c/u</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 shrink-0">
+                            <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-xl px-1.5 py-0.5">
+                                <button onclick="modificarCantidad('${prod.id}', -1)" class="w-5 h-5 rounded-lg bg-slate-100 text-slate-700 font-black text-xs hover:bg-slate-200 flex items-center justify-center">
+                                    -
+                                </button>
+                                <span class="text-xs font-black text-slate-900 px-1">${qty}</span>
+                                <button onclick="modificarCantidad('${prod.id}', 1)" class="w-5 h-5 rounded-lg bg-emerald-600 text-white font-black text-xs hover:bg-emerald-700 flex items-center justify-center">
+                                    +
+                                </button>
+                            </div>
+                            <span class="font-black text-slate-900 text-xs w-16 text-right">${formatCLP(totalItem)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ACCIÓN CHECKOUT WHATSAPP
+        function enviarPedidoWhatsApp() {
+            const entries = Object.entries(CARRITO);
+            if (entries.length === 0) {
+                alert("Tu carrito está vacío. Agrega productos antes de realizar el pedido.");
+                return;
+            }
+
+            const tipoEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value || "delivery";
+            const direccion = document.getElementById("inputDireccion").value.trim();
+            const medioPago = document.getElementById("selectPago").value;
+
+            if (tipoEntrega === "delivery" && !direccion) {
+                alert("Por favor ingresa la dirección para el despacho a domicilio.");
+                document.getElementById("inputDireccion").focus();
+                return;
+            }
+
+            let subtotal = 0;
+            let listaProductosTexto = "";
+
+            entries.forEach(([id, qty]) => {
+                const prod = PRODUCTOS.find(p => p.id === id);
+                if (prod) {
+                    const itemTotal = prod.precio * qty;
+                    subtotal += itemTotal;
+                    listaProductosTexto += `• ${qty}x ${prod.nombre} (${formatCLP(itemTotal)})\n`;
+                }
+            });
+
+            const costoEnvio = (tipoEntrega === "delivery" && subtotal > 0 && subtotal < 20000) ? 1500 : 0;
+            const totalFinal = subtotal + costoEnvio;
+
+            // Formato de Mensaje Amigable
+            const mensaje = 
+                `🛒 *¡HOLA MINIMARKET DON PEPE! QUIERO REALIZAR UN PEDIDO:*\n` +
+                `-----------------------------------------\n` +
+                listaProductosTexto +
+                `-----------------------------------------\n` +
+                `📦 *Tipo de Entrega:* ${tipoEntrega === 'delivery' ? 'Reparto a Domicilio (+$1.500)' : 'Retiro en Local (Gratis)'}\n` +
+                (tipoEntrega === 'delivery' ? `📍 *Dirección:* ${direccion}\n` : '') +
+                `💳 *Medio de Pago:* ${medioPago}\n` +
+                `💰 *TOTAL A PAGAR:* ${formatCLP(totalFinal)}\n` +
+                `-----------------------------------------\n` +
+                `¿Me confirman disponibilidad y tiempo de entrega? ¡Muchas gracias!`;
+
+            const phone = "56999648310"; // Número demostrativo de WhatsApp Business
+            const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(mensaje)}`;
+            window.open(url, "_blank");
+        }
+
+        // HELPERS PACKS PROMO
+        function agregarPackAsado() {
+            modificarCantidad("c1", 1);
+            modificarCantidad("c2", 1);
+            modificarCantidad("c3", 1);
+            modificarCantidad("c5", 1);
+            mostrarToast("¡Pack Parrillero Familiar agregado!");
+        }
+
+        function agregarPackOnce() {
+            modificarCantidad("p1", 1);
+            modificarCantidad("p3", 1);
+            modificarCantidad("p4", 1);
+            mostrarToast("¡Pack Once Tradicional agregado!");
+        }
+
+        function agregarPackSed() {
+            modificarCantidad("bot1", 1);
+            modificarCantidad("b3", 1);
+            mostrarToast("¡Pack Cervezas & Papas agregado!");
+        }
+
+        // FILTROS
+        function filtrarCategoria(cat) {
+            categoriaActiva = cat;
+            document.querySelectorAll(".cat-pill").forEach(btn => {
+                btn.classList.remove("active");
+            });
+            event.target.classList.add("active");
+
+            const titulos = {
+                todas: "Catálogo Completo de Productos",
+                carniceria: "🥩 Carnicería, Cortes & Asados",
+                panaderia: "🥖 Panadería, Cecinas & Fiambrería",
+                abarrotes: "🥫 Abarrotes & Despensa Diaria",
+                bebidas: "🥤 Bebidas, Jugos & Snacks",
+                botilleria: "🍺 Botillería, Cervezas & Licores",
+                limpieza: "🧼 Artículos de Aseo & Limpieza del Hogar"
+            };
+            document.getElementById("categoriaTitulo").textContent = titulos[cat] || "Productos";
+            renderizarProductos();
+        }
+
+        function filtrarProductos() {
+            const val = document.getElementById("searchInput").value;
+            document.getElementById("clearSearchBtn").classList.toggle("hidden", !val);
+            renderizarProductos();
+        }
+
+        function limpiarBusqueda() {
+            document.getElementById("searchInput").value = "";
+            document.getElementById("clearSearchBtn").classList.add("hidden");
+            renderizarProductos();
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById("cartModal");
+            modal.classList.toggle("hidden");
+            if (!modal.classList.contains("hidden")) {
+                renderizarItemsCarritoModal();
+                actualizarTotalCarrito();
+            }
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById("toastNotification");
+            document.getElementById("toastMessage").textContent = msg;
+            toast.classList.remove("opacity-0", "translate-y-[-20px]", "pointer-events-none");
+            toast.classList.add("opacity-100", "translate-y-0");
+            setTimeout(() => {
+                toast.classList.remove("opacity-100", "translate-y-0");
+                toast.classList.add("opacity-0", "translate-y-[-20px]", "pointer-events-none");
+            }, 2500);
+        }
+
+        // INICIALIZACIÓN
+        renderizarProductos();
+        actualizarTotales();
+    </script>
+</body>
+</html>
